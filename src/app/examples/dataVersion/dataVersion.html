@@ -1,0 +1,133 @@
+<div data-ng-show="!dataVersion">
+    <h3>Requested dataVersion not found</h3>
+</div>
+
+<div data-ng-show="dataVersion">
+    <form class="form-vertical" role="form"
+        data-editable-form name="editableForm"
+        data-onaftersave="saveDataVersion()"
+    >
+        <div class="row">
+            <div class="col-lg-8">
+                <h3>
+                    <span style="width: 100%;"
+                        data-editable-text="dataVersion.title"
+                        data-e-name="dataVersion.title"
+                        data-e-required
+                    >
+                        <span ng-if="dataVersion.dataObject.name"><a data-ui-sref="examples.dataObject({id: dataVersion.dataObject.id})">{{dataVersion.dataObject.name}}</a> -</span> {{dataVersion.title}}
+                    </span>
+
+                    <span class="pull-right"
+                        data-ng-show="!editableForm.$visible && user.admin"
+                    >
+                        <a href="#"
+                           data-ng-click="editableForm.$show()"
+                           data-tooltip="Toggle edit mode"
+                        >
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </span>
+                </h3>
+                <p class="radioLabel" ng-show="!editableForm.$visible" ng-init="jsonFormatted = 'FORMATTED'">
+                  <input type="radio" id="displayFormatted" ng-model="jsonFormatted" ng-value="'FORMATTED'" ng-checked="true"> <label for="displayFormatted">Display as JSON formatted</label><br />
+                  <input type="radio" id="displayAsText" ng-model="jsonFormatted" ng-value="'TEXT'"> <label for="displayAsText">Display as text</label><br />
+                  <input type="radio" id="displayAsRaw" ng-model="jsonFormatted" ng-value="'RAW'"> <label for="displayAsRaw">Display as raw</label><br />
+                </p>
+                <p style="white-space: pre-line"
+                   data-editable-textarea="dataVersion.description|json"
+                   data-e-name="dataVersion.description"
+                   data-e-class="editable-textarea"
+                   data-e-required
+                >
+
+                  <json-formatter ng-if="jsonFormatted === 'FORMATTED'" open="5" json="dataVersion.description"></json-formatter>
+                  <pre ng-if="jsonFormatted === 'TEXT'">{{dataVersion.description | json}}</pre>
+                  <span ng-if="jsonFormatted === 'RAW'">{{dataVersion.description}}</span>
+                </p>
+
+                <div class="visible-lg">
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger pull-right"
+                            data-ng-bootbox-title="Danger - Danger - Danger"
+                            data-ng-bootbox-custom-dialog="Are you sure about the <strong>{{dataVersion.title}}</strong> dataVersion delete?"
+                            data-ng-bootbox-buttons="confirmButtonsDelete"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <h4 class="text-muted">Information</h4>
+                <table class="table">
+                    <tr>
+                        <th style="vertical-align: middle;">JSON Object</th>
+                        <td>
+                            <a
+                                data-ui-sref="examples.dataObject({id: dataVersion.dataObject.id})"
+                                data-editable-select="selectDataObject"
+                                data-onshow="loadDataObjects()"
+                                data-e-name="dataVersion.dataObject"
+                                data-e-required
+                                data-e-ng-options="a.id as a.name for a in dataObjects"
+                            >
+                                {{dataVersion.dataObject.name}}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Released</th>
+                        <td>
+                            <div data-ng-show="!editableForm.$visible">
+                                {{dataVersion.releaseDate | amDateFormat: 'YYYY'}}
+                            </div>
+
+                            <div data-ng-show="editableForm.$visible">
+                                <datepicker
+                                    data-ng-model="dataVersion.releaseDate"
+                                    data-min-mode="year"
+                                    data-datepicker-mode="'year'"
+                                ></datepicker>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="hidden-lg">
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger pull-right"
+                            data-ng-bootbox-confirm="Are you sure about the dataVersion delete?"
+                            data-ng-bootbox-confirm-action="deleteDataVersion()"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

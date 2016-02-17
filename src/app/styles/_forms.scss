@@ -1,0 +1,21 @@
+$color-button-info: #fff;
+
+.editable-wrap {
+  display: inline;
+}
+
+.editable-textarea {
+  min-height: 350px;
+}
+
+.btn {
+  &.active {
+    .text-info {
+      color: $color-button-info;
+    }
+  }
+}
+
+.radioLabel > label {
+  font-weight: normal;
+}

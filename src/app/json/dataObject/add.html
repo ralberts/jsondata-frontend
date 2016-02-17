@@ -1,0 +1,25 @@
+<form class="form-vertical" role="form" name="dataObjectForm"
+    data-ng-submit="addDataObject()"
+>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group" style="margin-top: 10px;">
+                <input type="text" class="form-control" name="dataObject.name" required="required" placeholder="Enter title"
+                    data-ng-model="dataObject.name"
+                />
+            </div>
+
+            <div class="form-group">
+                <textarea name="dataObject.description" class="form-control editable-textarea" required="required" placeholder="Enter JSON data"
+                    data-ng-model="dataObject.description"
+                >{book.description}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                data-ng-disabled="!dataObjectForm.$valid"
+            >
+                Save
+            </button>
+        </div>
+    </div>
+</form>
